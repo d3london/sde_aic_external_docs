@@ -1,0 +1,26 @@
+project:
+  type: website
+  output-dir: docs  
+
+website:
+  title: "London AI Centre / SDE Programme Docs"
+  navbar:
+    background: secondary
+  sidebar: 
+    style: "docked"
+    search: false
+    contents:
+      - section: "MAIN"
+        contents: 
+          - href: index.qmd
+            text: Index
+      - section: "DATA MODEL"
+        contents: 
+          - href: table_person.qmd
+            text: PERSON
+                     
+format:
+  html:
+    theme: zephyr
+    mermaid:
+      theme: neutral
