@@ -29,7 +29,7 @@ erDiagram
 
 ### IMPLEMENTATION - SILVER.PERSON
 
-SILVER.PERSON is the filtered, cleaned, and transformed version of ingested person and demographic tables, that is used to stage vanilla OMOP CDM5.4 tables (as well as other GOLD transformations). This table is wider than the OMOP data model, and includes the following differences:
+SILVER.PERSON is the cleaned and transformed version of ingested person and demographic tables, that is used to stage vanilla OMOP CDM 5.4 tables (as well as other GOLD transformations). This table is wider than the OMOP data model, and includes the following differences:
 
 - Surfaces both person_nhs_number and person_mrn (NHS hospital patients have two unique identifiers);
 - Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;

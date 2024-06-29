@@ -18,6 +18,8 @@ website:
         contents: 
           - href: pages/data_model/cdm_person.qmd
             text: PERSON
+          - href: pages/data_model/cdm_condition_occurrence.qmd
+            text: CONDITION OCCURRENCE            
                      
 format:
   html:
