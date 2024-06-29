@@ -3,7 +3,7 @@ project:
   output-dir: docs  
 
 website:
-  title: "London AI Centre / SDE Programme Docs"
+  title: "London SDE/AIC Technical Documentation"
   navbar:
     background: secondary
   sidebar: 
@@ -13,10 +13,10 @@ website:
       - section: "MAIN"
         contents: 
           - href: index.qmd
-            text: Index
-      - section: "DATA MODEL"
+            text: Home
+      - section: "COMMON DATA MODEL"
         contents: 
-          - href: table_person.qmd
+          - href: pages/data_model/cdm_person.qmd
             text: PERSON
                      
 format:
