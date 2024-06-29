@@ -40,7 +40,7 @@ SILVER.CONDITION_OCCURRENCE is the cleaned and transformed version of ingested c
 
 ```{mermaid}
 ---
-title: OMOP.CONDITION_OCCURRENCE
+title: SILVER.CONDITION_OCCURRENCE
 ---
 erDiagram
     CONDITION_OCCURRENCE {
