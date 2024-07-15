@@ -36,7 +36,7 @@ SILVER.CONDITION_OCCURRENCE is the cleaned and transformed version of ingested c
 - Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;
 - Source concept codes/names are surfaced to enable direct visibility over semantic provenance;
 - Each row holds information about a single concept relative to a single person. We can therefore incorporate additional, NHS-specific, information about table and systems provenance relative to source data. By extension, this allows for additional understanding of context of data generation, whereas it is often necessary to infer 'OMOP condition status'.  
-- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but set as null, and remain empty when carried into OMOP.CONDITION_OCCURRENCE.
+- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but set as null, and remain empty when carried into OMOP.
 
 ```{mermaid}
 ---

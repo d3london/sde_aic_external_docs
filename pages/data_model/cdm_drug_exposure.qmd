@@ -20,7 +20,7 @@ erDiagram
         drug_type_concept_id integer "[not null] e.g. prescriptions / dispensed / patient reported"
         stop_reason varchar20 "reason for stopping as per source"
         refills integer
-        quantity float "amount dispensed of the drug + form"
+        quantity float "any numerical value for amount of drug"
         days_supply integer
         sig varcharMAX "verbatim instructions for drug"
         route_concept_id integer "standard omop concept id in route domain"
@@ -28,7 +28,7 @@ erDiagram
         provider_id integer "[FK] clinician provider who recorded condition"
         visit_occurrence_id integer "[FK]"
         visit_detail_id integer "[FK]"
-        drug_source_value varchar50 "source code as represented in source"
+        drug_source_value varchar50 "drug code as represented in source"
         drug_source_concept_id integer "source mapped to omop but often left empty"
         route_source_value varchar50 "verbatim route given in source"
         dose_unit_source_value varchar50 "verbatim units given in source"
@@ -42,10 +42,9 @@ SILVER.DRUG_EXPOSURE is the cleaned and transformed version of ingested drug pre
 - Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;
 - Source concept codes/names are surfaced to enable direct visibility over semantic provenance;
 - Dose information from source NHS inpatient drug adminstration systems (or 'drug charts') are difficult to represent unambiguously in OMOP. For example, OMOP quantity may contain 'number of tablets' OR 'dose' OR 'total dosage given'. In the NHS, administration records found in drug charts are often a drug name (e.g. Paracetamol) and a dose (e.g. 1g) without any information about medication formulation or strength, which is the preferred information held in a standard OMOP concept. SILVER.DRUG_EXPOSURE therefore explicitly differentiates between item strength and quantity, and prescribed/administered dose.
-- SILVER.DRUG_EXPOSURE also includes a column to indicate whether a prescribed dose was administered at the time, or if the dose was 'not given' at the prescribed time.
-- OMOP is unable to capture details about complex infusions, for example those given on intensive care units, where a particular start or end time of an exposure may correspond to an infusion given at a specific dose unit (e.g. amount per weight) and a rate (e.g. volume per time). An additional column is included to represent this information.    
+- SILVER.DRUG_EXPOSURE also includes a column to indicate whether a prescribed dose was administered at the time, or if the dose was 'not given' at the prescribed time. 
 - Each row holds information about a single concept relative to a single person. We can therefore incorporate additional, NHS-specific, information about table and systems provenance relative to source data. By extension, this allows for additional understanding of context of data generation, whereas it is often necessary to infer 'OMOP drug type'.
-- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but set as null, and remain empty when carried into OMOP.CONDITION_OCCURRENCE.
+- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but set as null, and remain empty when carried into OMOP.
 
 ```{mermaid}
 ---
@@ -67,7 +66,10 @@ erDiagram
         drug_type_concept_id integer "[not null] e.g. prescriptions / dispensed / patient reported"
         stop_reason varchar20 "[set as null]"
         refills integer "[set as null]"
-        quantity float "amount dispensed of the drug in the described form"
+        quantity float "any numerical value for amount of drug"
+        quantity_type varchar50 "[NEW] indicates what type of quantity is indicated"
+        quantity_unit varchar50 "[NEW] clean version of unit for the quantity"
+        dose_administration_flag varchar50 "[NEW] for EPMA, indicates whether the drug was administered (yes/no/na)"        
         days_supply integer "[set as null]"
         sig varcharMAX "[set as null]"
         route_concept_id integer "standard omop concept id in route domain"
@@ -75,13 +77,11 @@ erDiagram
         provider_id integer "[set as null]"
         visit_occurrence_id integer "[FK]"
         visit_detail_id integer "[set as null]"
-        drug_source_value varchar50 "source code as represented in source"
+        drug_source_value varchar50 "drug code as represented in source"
         drug_source_value_name varcharMAX "[NEW] drug name as represented in source"        
         drug_source_concept_id integer "[set as null]"
         dose_source_value float "[NEW] verbatim drug dose for each administration given in source"
-        dose_administration_flag varchar50 "[NEW] for EPMA, indicates whether dose was administered (yes/no/na)"
         dose_unit_source_value varchar50 "verbatim units given in source"
-        dose_rate_source_value varchar50 "verbatim rate given in source for the dose"
         route_source_value varchar50 "verbatim route given in source"
         source_system_provenance varchar50 "[NEW] name of specific system from which source table was ingested"
         source_table_provenance varchar50 "[NEW] source table name"
