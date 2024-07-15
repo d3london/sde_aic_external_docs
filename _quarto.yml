@@ -17,9 +17,13 @@ website:
       - section: "COMMON DATA MODEL"
         contents: 
           - href: pages/data_model/cdm_person.qmd
-            text: PERSON
+            text: Table/PERSON
           - href: pages/data_model/cdm_condition_occurrence.qmd
-            text: CONDITION OCCURRENCE            
+            text: Table/CONDITION_OCCURRENCE
+          - href: pages/data_model/cdm_drug_exposure.qmd
+            text: Table/DRUG_EXPOSURE            
+          - href: pages/data_model/notes_provenance.qmd
+            text: Notes/Data Provenance                           
                      
 format:
   html:

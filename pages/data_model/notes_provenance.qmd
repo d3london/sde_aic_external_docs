@@ -1,0 +1,8 @@
+
+## DATA PROVENANCE
+
+### ROW, TABLE, AND SYSTEMS PROVENANCE
+
+OMOP provides different ways for representing provenance. These include using concepts that represent the [type of data source](https://athena.ohdsi.org/search-terms/terms?domain=Type+Concept&standardConcept=Standard&page=1&pageSize=15&query=), and concepts that represent the [concept status](https://athena.ohdsi.org/search-terms/terms?domain=Condition+Status&standardConcept=Standard&page=1&pageSize=15&query=). "Type" is USA-centric and does not carry granularity to represent the specific types of NHS system (though NHS systems can be mapped to these categories). Concept status is specific to the context in which each condition code was recorded. In practice, this type of metadata is rarely present in NHS source data, and would usually be inferred by the source system. 
+
+In the Common Data Model, SILVER tables therefore include additional columns to enable visibility over the source table, and NHS source system. In addition, in tables where a single row will carry information about a single concept for a single person, it is possible to track this main relationship through to a source row via a row_id that is generated at data ingestion. This enables direct visbility over transformations during the pipeline.

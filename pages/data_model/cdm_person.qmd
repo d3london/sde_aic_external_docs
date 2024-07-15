@@ -84,7 +84,7 @@ erDiagram
 While hospitals make effort to keep MRN numbers unique, it is possible that a single patient may have multiple MRNs. An option is to use NHS numbers, but these are not always available or compulsory in the record (e.g. patients from overseas may not have NHS numbers). As such person_id is based on MRN (see Person disambiguation).
 
 #### Table and systems provenance
-As fields in this table may be derived from different source tables, we do not directly surface row or systems lineage within PERSON tables.
+Fields in this table may be derived from different source tables. At present, we do not directly surface row or systems lineage within PERSON tables.
 
 ### OUTSTANDING ISSUES
 

@@ -95,7 +95,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/data_model/cdm_person.html">COMMON DATA MODEL</a></li><li class="breadcrumb-item"><a href="../../pages/data_model/cdm_condition_occurrence.html">CONDITION OCCURRENCE</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/data_model/cdm_person.html">COMMON DATA MODEL</a></li><li class="breadcrumb-item"><a href="../../pages/data_model/cdm_condition_occurrence.html">Table/CONDITION_OCCURRENCE</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -136,13 +136,25 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/data_model/cdm_person.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">PERSON</span></a>
+ <span class="menu-text">Table/PERSON</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/data_model/cdm_condition_occurrence.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">CONDITION OCCURRENCE</span></a>
+ <span class="menu-text">Table/CONDITION_OCCURRENCE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/data_model/cdm_drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Table/DRUG_EXPOSURE</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/data_model/notes_provenance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notes/Data Provenance</span></a>
   </div>
 </li>
       </ul>
@@ -205,7 +217,7 @@ erDiagram
 <li>Includes an additional qualifier column to allow integration of ‘diagnosis order’ within NHS commissioning datasets;</li>
 <li>Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;</li>
 <li>Source concept codes/names are surfaced to enable direct visibility over semantic provenance;</li>
-<li>Each row holds information about a single concept relative to a single person. We can therefore incorporate additional, NHS-specific, information about table and systems provenance relative to source data. By extension, this allows for additional understanding of context of data generation, whereas it is often necessary to infer ‘OMOP condition status’ with no visibility over this process.<br>
+<li>Each row holds information about a single concept relative to a single person. We can therefore incorporate additional, NHS-specific, information about table and systems provenance relative to source data. By extension, this allows for additional understanding of context of data generation, whereas it is often necessary to infer ‘OMOP condition status’.<br>
 </li>
 <li>OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but set as null, and remain empty when carried into OMOP.CONDITION_OCCURRENCE.</li>
 </ul>
@@ -223,7 +235,7 @@ erDiagram
         person_id integer "[FK not null]"
         condition_concept_id integer "[FK not null]"
         condition_concept_code varchar50 "[NEW] standard OMOP concept code"
-        condition_concept_name varchar255 "[NEW] standard OMOP concept name"
+        condition_concept_name varcharMAX "[NEW] standard OMOP concept name"
         condition_concept_vocabulary_id varchar20 "[FK NEW] OMOP vocabulary id representing the standard concept"
         condition_diagnosis_order integer "[NEW] for commissioning data only, the diagnosis order given in source"
         condition_start_date date "[not null]"
@@ -237,7 +249,7 @@ erDiagram
         visit_occurrence_id integer "[FK]"
         visit_detail_id integer "[set as null]"      
         condition_source_value varchar50 "condition code as represented in source"
-        condition_source_value_name varchar255 "condition name as represented in source"
+        condition_source_value_name varcharMAX "[NEW] condition name as represented in source"
         condition_source_concept_id integer "[set as null]"          
         condition_source_vocabulary_id varchar20 "[FK NEW] OMOP vocabulary id representing the source concept"
         condition_status_source_value varchar50 "[set as null]"
@@ -254,11 +266,7 @@ erDiagram
 </section>
 <section id="additional-notes" class="level3">
 <h3 class="anchored" data-anchor-id="additional-notes">ADDITIONAL NOTES</h3>
-<section id="row-table-and-systems-provenance" class="level4">
-<h4 class="anchored" data-anchor-id="row-table-and-systems-provenance">ROW, TABLE, AND SYSTEMS PROVENANCE</h4>
-<p>OMOP provides different ways for representing provenance. These include using concepts that represent the <a href="https://athena.ohdsi.org/search-terms/terms?domain=Type+Concept&amp;standardConcept=Standard&amp;page=1&amp;pageSize=15&amp;query=">type of data source</a>, and concepts that represent the <a href="https://athena.ohdsi.org/search-terms/terms?domain=Condition+Status&amp;standardConcept=Standard&amp;page=1&amp;pageSize=15&amp;query=">concept status</a>. “Type” is USA-centric and does not carry granularity to represent the specific types of NHS system (though NHS systems can be mapped to these categories). Concept status is specific to the context in which each condition code was recorded. In practice, this type of metadata is rarely present in NHS source data, and would usually be inferred by the source system. The SILVER table therefore includes additional columns to enable visibility over the source table, and NHS source system.</p>
-<p>In addition, as each row primarily carries information about a single concept for a single person, it is possible to track this main relationship through to a source row via a row_id that is generated at data ingestion. This enables direct visbility over transformations during the pipeline.</p>
-</section>
+<p>None for now!</p>
 </section>
 <section id="outstanding-issues" class="level3">
 <h3 class="anchored" data-anchor-id="outstanding-issues">OUTSTANDING ISSUES</h3>
