@@ -2,5 +2,5 @@
 title: "London SDE/AIC Docs"
 ---
 
-Technical documentation for London SDE/AIC Programme 
+Technical documentation for work in London SDE/AIC Programme
 [_Placeholder_]
