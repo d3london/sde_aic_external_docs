@@ -14,7 +14,7 @@ website:
         contents: 
           - href: index.qmd
             text: Home
-      - section: "COMMON DATA MODEL"
+      - section: "COMMON DATA MODEL / PIPELINE"
         contents: 
           - href: pages/data_model/cdm_person.qmd
             text: Table/PERSON
