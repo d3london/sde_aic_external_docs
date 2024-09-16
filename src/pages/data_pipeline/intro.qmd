@@ -1,0 +1,13 @@
+## INTRODUCTION
+
+This section describes the architecture of our data pipeline.
+
+```{mermaid}
+%%{init: {'theme': 'neutral' } }%%
+  flowchart LR
+
+    A["SOURCE"]--"Batch/stream landing zone 
+                    and load to database"-->B["BRONZE"]-->C["SILVER"]-->D["GOLD"]
+```
+
+[_placeholder_]
