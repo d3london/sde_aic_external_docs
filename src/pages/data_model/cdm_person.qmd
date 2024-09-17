@@ -2,7 +2,7 @@
 ## PERSON
 
 ### OMOP CDM 5.4 - OMOP.PERSON
-This table serves as the central identity management for all Persons in the OMOP data model. It contains records that uniquely identify each person or patient, and some demographic information. 
+Central identity management for all persons in the OMOP data model. It contains records that uniquely identify each person or patient, and some demographic information.
 ```{mermaid}
 ---
 title: OMOP.PERSON
@@ -20,7 +20,7 @@ erDiagram
         location_id integer "patient physical address"
         provider_id integer "GP who is primary care provider"
         care_site_id integer "GP surgery for primary care"
-        person_source_value varchar50 "person identifer source value"
+        person_source_value varchar50 "nhs number where available"
         gender_source_value varchar50 "biological sex as represented in source"
         gender_source_concept_id integer "mapping to omop, but often empty"
         race_source_value varchar50 "race or ethnicity as represented in source"
@@ -30,9 +30,55 @@ erDiagram
     }
 ```
 
-### IMPLEMENTATION - SILVER.PERSON
+### OMOP-EXT - SILVER.PERSON
 
-SILVER.PERSON is the cleaned and transformed version of ingested person and demographic tables, that is used to stage vanilla OMOP CDM 5.4 tables (as well as other GOLD transformations). This table is wider than the OMOP data model, and includes the following differences:
+SILVER.PERSON is the cleaned and transformed version of ingested person and demographic tables. This table is wider than the OMOP data model, and contains the following differences:
+
+- Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;
+- Source concept codes/names are surfaced to enable direct visibility over semantic provenance;
+- Additional demographic fields for deprivation are included; 
+- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but set as null, and remain empty when carried into OMOP.PERSON.  
+
+```{mermaid}
+---
+title: SILVER.PERSON
+---
+erDiagram
+    PERSON {
+        person_id integer "[PK]"
+        gender_concept_id integer "[not null]"
+        gender_concept_code varchar50 "[NEW] standard concept code"
+        gender_concept_name varchar50 "[NEW] standard concept name"
+        year_of_birth integer "[not null]"
+        month_of_birth integer
+        day_of_birth integer
+        birth_datetime timestamp "[set as null]"
+        race_concept_id integer "[not null] race or ethnicity"
+        race_concept_code varchar50 "[NEW] standard concept code"
+        race_concept_name varchar50 "[NEW] standard concept name"
+        deprivation_decile_as_number integer "[NEW] constrain to NHS IMD definitions"       
+        deprivation_index_as_number integer "[NEW] constrain to NHS IMD definitions"
+        ethnicity_concept_id integer "[set as null]"
+        location_id integer "[set as null]"
+        provider_id integer "[set as null]"
+        care_site_id integer "[set as null]"
+        person_source_value varchar50 "contains nhs number where available"
+        gender_source_value varchar50 "biological sex source code"
+        gender_source_value_name varchar50 "[NEW] biological sex source name"
+        gender_source_concept_id integer "[set as null]"
+        race_source_value varchar50 "ethnicity code as in source"
+        race_source_value_name varchar50 "[NEW] ethnicity name as in source"
+        race_source_concept_id integer "[set as null]"
+        ethnicity_source_value varchar50 "[set as null]"
+        ethnicity_source_concept_id integer "[set as null]"    
+    }
+```
+
+
+
+### OMOP-EXT - SILVER.PERSON
+
+SILVER.PERSON is the cleaned and transformed version of ingested person and demographic tables. This table is wider than the OMOP data model, and contains the following differences:
 
 - Surfaces both person_nhs_number and person_mrn (NHS hospital patients have two unique identifiers);
 - Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;
@@ -76,6 +122,9 @@ erDiagram
         ethnicity_source_concept_id integer "[set as null]"    
     }
 ```
+
+
+
 
 
 ### ADDITIONAL NOTES

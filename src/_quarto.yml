@@ -5,6 +5,7 @@ project:
 website:
   title: "London SDE/AIC Technical Documentation"
   navbar:
+    logo: media/logo_aic.png  
     background: secondary
   sidebar: 
     style: "docked"

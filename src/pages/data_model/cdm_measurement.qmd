@@ -83,7 +83,7 @@ erDiagram
         meas_event_field_concept_id integer "concept id identifying the TABLE that is linked"
         source_system_provenance varchar50 "[NEW] name of specific system from which source table was ingested"
         source_table_provenance varchar50 "[NEW] source table name"
-        source_row_id varchar50 "[NEW] unique row id for the single concept that is generated at ingestion"          
+        source_row_id uuid "[NEW] unique row id for the single concept that is generated at ingestion"          
     }
 ```
 
