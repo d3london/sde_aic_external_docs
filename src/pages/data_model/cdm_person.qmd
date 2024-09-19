@@ -5,12 +5,12 @@
 
 Structured data sources for person and core demographic information will generally always include:
 
-| Table | Type |
-| ----- | ----- |
-|Commissioning Datasets | Legacy |
-|Patient Information Management Systems | Legacy |
-|Electronic Health Record patient index | Live / ADT feed|
-|Individual Observations / Facts | Legacy + Live |
+| Table                                  | Type            |
+|----------------------------------------|-----------------|
+| Commissioning Datasets                 | Legacy          |
+| Patient Information Management Systems | Legacy          |
+| Electronic Health Record patient index | Live / ADT feed |
+| Individual Observations / Facts        | Legacy + Live   |
 
 Tables are loaded to the database in batches, or through incremental ingestion via connection to a source database.
 
