@@ -13,8 +13,8 @@ erDiagram
         person_id integer "[FK not null]"
         measurement_concept_id integer "[not null] standard OMOP concept id used for analyses"
         measurement_date date "[not null]"
-        measurement_datetime timestamp
-        measurement_time varchar10
+        measurement_datetime datetime
+        measurement_time timestamp
         measurement_type_concept_id integer "[not null] provenance of measurement value per OMOP"
         operator_concept_id integer "omission here is equivalent to '='"         
         value_as_number float "numerical value of the result of the measurement"

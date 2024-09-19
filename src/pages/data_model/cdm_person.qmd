@@ -14,7 +14,7 @@ Structured data sources for person and core demographic information will general
 
 Tables are loaded to the database in batches, or through incremental ingestion via connection to a source database.
 
-### bronze.stg__{source_table} (BRONZE)
+### bronze.stg_{source}__{entity} (BRONZE)
 
 Each data source is first staged in `stg_{source}__{entity}`. This may include column renaming, SELECT and UNION statements, and edge case handling.
 
@@ -49,7 +49,7 @@ Normalised tables handle core characteristics, that we treat as patient dimensio
 title: Person Intermediate Tables
 ---
 erDiagram
-    int__person_birth {
+    int_person_birth {
         person_uuid uuid "[PK] generated for each unique person"
         year_of_birth integer "[not null]"
         month_of_birth integer
@@ -58,20 +58,20 @@ erDiagram
         source_table_provenance varchar50 "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
     }
-    int__person_birth ||--|{ int__person_gender : "has gender"
-    int__person_gender {
-        person_uuid uuid "[FK] int__person_birth"
-        gender_source_value varchar20 "gender code from source system"
-        gender_source_value_name varchar20 "gender descriptive name from source system"        
-        gender_type varchar20 "type of gender (e.g. Epic - phenotypic)"
-        source_table_provenance varchar50 "source table name"
+    int_person_birth ||--|{ int_person_gender : "has gender"
+    int_person_gender {
+        person_uuid uuid "[FK] int_person_birth"
+        gender_source_value varchar "gender code from source system"
+        gender_source_value_name varchar "gender descriptive name from source system"        
+        gender_type varchar "type of gender (e.g. Epic - phenotypic)"
+        source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         date_valid date "date of record creation"
         date_invalid date "date of record deprecation (e.g. if data item no longer valid)"
     }
-    int__person_birth ||--|{ int__person_ethnicity : "has ethnicity"
-    int__person_ethnicity {
-        person_uuid uuid "[FK] int__person_birth"
+    int_person_birth ||--|{ int_person_ethnicity : "has ethnicity"
+    int_person_ethnicity {
+        person_uuid uuid "[FK] int_person_birth"
         ethnicity_source_value varchar20 "ethnicity code from source system"
         ethnicity_source_value_name varchar20 "ethnicity descriptive name from source system"        
         source_table_provenance varchar50 "source table name"
@@ -81,7 +81,7 @@ erDiagram
     }
 ```
 
-### SILVER - silver.int__person_deprivation
+### SILVER - silver.int_person_deprivation
 
 Deprivation is derived from patient postcode. The remaining parts of address are discarded.
 
@@ -96,23 +96,23 @@ erDiagram
         month_of_birth integer
         day_of_birth integer
         birth_datetime timestamp
-        source_table_provenance varchar50 "source table name"
+        source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
     }
     int_person_birth ||--|{ int_person_deprivation : "has deprivation"
         int_person_deprivation {
         person_uuid uuid "[FK] int_person_birth"
-        postcode varchar20 "postcode with space"
+        postcode varchar "postcode with space"
         deprivation_decile integer "derived from postcode lookup"        
         index_multiple_deprivation integer "ranked IMD from postcode lookup"
-        source_table_provenance varchar50 "source table name"
+        source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         valid_from date "date of record creation"
         valid_to date "date of record deprecation (e.g. if data item no longer valid)"
     }
 ```
 
-### silver.mrt__person (SILVER)
+### silver.mrt_person (SILVER)
 
 This is the transformed version of ingested person and demographic tables. This table is wider than the OMOP data model can be further constrained to transform into vanilla OMOP. It contains the following differences from OMOP:
 
@@ -129,27 +129,27 @@ erDiagram
     mrt_person {
         person_uuid uuid "[PK] generated for each unique person"
         gender_concept_id integer "[OMOP, not null] standard omop concept"
-        gender_concept_code varchar50 "standard concept code"
-        gender_concept_name varchar50 "standard concept name"
+        gender_concept_code varchar "standard concept code"
+        gender_concept_name varchar "standard concept name"
         year_of_birth integer "[OMOP, not null]"
         month_of_birth integer "[OMOP]"
         day_of_birth integer "[OMOP]"
         birth_datetime timestamp "[OMOP]"
         race_concept_id integer "[OMOP, not null] ethnicity in NHS"
-        race_concept_code varchar50 "standard concept code"
-        race_concept_name varchar50 "standard concept name"
+        race_concept_code varchar "standard concept code"
+        race_concept_name varchar "standard concept name"
         deprivation_decile_as_number integer "NHS IMD decile"       
         deprivation_index_as_number integer "NHS IMD ranking"
         ethnicity_concept_id integer "[OMOP] we do not populate this"
         location_id integer "[OMOP] we do not populate this"
         provider_id integer "[OMOP] we do not populate this"
         care_site_id integer "[OMOP] we do not populate this"
-        person_source_value varchar50 "[OMOP] contains nhs number where available"
-        gender_source_value varchar50 "[OMOP]"
+        person_source_value varchar "[OMOP] contains nhs number where available"
+        gender_source_value varchar "[OMOP]"
         gender_source_concept_id integer "[OMOP]"
-        race_source_value varchar50 "[OMOP]"
+        race_source_value varchar "[OMOP]"
         race_source_concept_id integer "[OMOP]"
-        ethnicity_source_value varchar50 "[OMOP] we do not populate this"
+        ethnicity_source_value varchar "[OMOP] we do not populate this"
         ethnicity_source_concept_id integer "[OMOP] we do not populate this"   
     }
 ```
