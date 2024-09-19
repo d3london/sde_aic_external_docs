@@ -20,7 +20,7 @@ Each data source is first staged in `stg_{source}__{entity}`. This may include c
 
 ### silver.int_person_identifier_lookup (SILVER)
 
-Due to the large number of patient identification systems found in any hospital, and the possibility of patient id duplication (and subsequent deduplication), we normalise all identifiers (including hospital IDs, NHS numbers, specific system IDs) under a person_uuid that we generate. Note that while NHS numbers are often seen as a canonical identifier, these exhibit significant missingness either due to failure to retrieve from NHS Spine, or because a patient is not registered in the NHS.       
+Due to the large number of patient identification systems found in any hospital, and the possibility of patient ID duplication (and subsequent deduplication), we normalise all identifiers (including hospital IDs, NHS numbers, specific system IDs) under a `person_uuid` that we generate. Note that while NHS numbers are often seen as a canonical identifier, these exhibit significant missingness either due to failure to retrieve from NHS Spine, or because a patient is not registered in the NHS.       
 
 ```{mermaid}
 ---
