@@ -27,14 +27,14 @@ Due to the large number of patient identification systems found in any hospital,
 title: Person Identifier Lookup Table
 ---
 erDiagram
-    int__person_identifier_lookup {
+    int_person_identifier_lookup {
         person_uuid uuid "generated for each unique person"
-        patient_id varchar50 "patient identifier from source systems"
-        patient_id_type varchar50 "type of patient identifier"
-        source_table_provenance varchar50 "source table name"
+        patient_id varchar "patient identifier from source systems"
+        patient_id_type varchar "type of patient identifier"
+        source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
-        date_valid date "date of record creation"
-        date_invalid date "date of record deprecation (e.g. if lookup no longer valid)"
+        valid_from date "date of record creation"
+        valid_to date "date of record deprecation (e.g. if lookup no longer valid)"
     }
 ```
 
