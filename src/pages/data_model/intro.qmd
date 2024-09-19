@@ -1,0 +1,89 @@
+## INTRODUCTION
+
+This section explains how we model clinical data across our partner hospitals.
+
+### DATA MODELLING GUIDELINES
+
+NHS hospitals generate vast amounts of electronic data, but it's often unsuitable for immediate analytics or research due to normalisation, transactional design, and inconsistencies across systems. To unify data from various sources, it must be transformed into a Common Data Model (CDM). Extensive transformation risks changing meaning or introducing errors, potentially impacting research outcomes or patient care decisions. This is particularly critical for high-stakes applications like regulatory drug assessments or AI model training for precision medicine. Consequently, we follow strict guidelines to maintain data integrity and trustworthiness throughout our pipelines:
+
+::: {.callout-tip}
+## Avoid information loss
+For a given domain of interest, the target data model should not result in any relevant information being discarded.
+:::
+
+::: {.callout-tip}
+## Continuously enrich with metadata
+Information should be added to enrich contextual understanding of each data item, which can be surfaced to inform analytical decisions.
+:::
+
+::: {.callout-tip}
+## Keep data provenance visible
+Each value or concept, even after transformations, should be traceable back to the source system/table where it was originally generated.
+:::
+
+::: {.callout-tip}
+## Consider source systems and context as part of the data pipeline
+Source systems and context affect the meaning of data, and while they fall outside control or assurance of engineers, they must be comprehensively documented for data to be interpretable during analysis.
+:::
+
+::: {.callout-tip}
+## Keep data lineage traceable back to source
+This includes any transformations to numerical values or concepts, and is essential for trust in standardised data. Transformed data should be easily comparable to its source appearance.
+:::
+
+::: {.callout-tip}
+## Make 'research-ready' only for each use-case
+Data is kept close to source while being made interoperable, and more extensive transformations are performed only on the basis of study requirements. In particular, handling of data quality issues should be a decision made at analysis, dependant on type of analysis.  
+:::
+
+These guidelines ensure that data is kept as close to its original form for as long as possible, whilst creating syntactic and semantic standardisation, and introducing full visibility over sources and transformations.
+
+### OMOP CDM (GOLD)
+
+The Observational Medical Outcomes Partnership (OMOP) Common Data Model (CDM) standardises medical data for large-scale analytics and cross-site research. It organizes data into standardised tables and uses consistent vocabulary, enabling syntactic and semantic interoperability, with key advantages:
+
+|                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------- |
+|1. International standard: wide adoption and support has made OMOP the de facto international standard common data model for research|
+|2. Reproducibility: easier code-sharing and reproduction of research findings across different datasets|
+|3. Federated analytics: the same code can be directly executed without modification across different sites, with results combined|
+
+![OMOP CDM 5.4](media/cdm54.png)
+
+However, OMOP also has limitations:
+
+|                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------- |
+|1. Data model is USA-centric and has elements that are not applicable to other countries, e.g. representation of race and ethnicity|
+|2. Standard vocabulary may not capture how standard ontologies are used and updated in other countries, e.g. NHS/UK SNOMED extensions and use of dm+d|   
+|3. Rigid structure means there is potential information loss during conversion where data, especially of variable quality, must be 'forced' into the model|
+|4. Different interpretations of how to convert (e.g. choice of source systems, local mappings) may result in OMOP at different sites having varying meaning, unless precise conventions for a particular cohort are agreed in advance|
+|5. Limited number of fields prevents additional data types or complex medical concepts, e.g. NHS specific qualifiers, and makes it difficult to incorporate new types of data or emerging medical concepts such as genomics and cancer, without workarounds|
+|6. Representing complex temporal relationships and hierarchical/nested episodes, e.g. cancer pathways, is challenging|
+|7. Limited ability for capturing data provenance, and USA-centric source system classification| 
+|8. OMOP is not able to handle dimensions of patients that change over time, without using workarounds|
+
+
+For our work, OMOP serves as a target model for specific cohorts that require interoperable data across multiple sites (i.e. a data mart / GOLD layer in a medallion architecture). However, due to its limitations, OMOP breaks our data modelling guidelines and is not used as a primary CDM. Rather, we adopt a wider data model, which we refer to as OMOP Extended (OMOP-EXT CDM), serving as the SILVER layer.   
+
+### OMOP-EXT CDM (SILVER)
+
+OMOP-EXT is made to be compatible with OMOP, but adds additional columns for greater semantic capture, and better localisation. Compatibility is defined as the following:
+
+|                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------- |
+|1. All concepts are mapped to concepts recognised by the OMOP vocabulary, and to OMOP standard concepts whereever possible. Semantic layer uses OMOP defined concept IDs as primary keys |
+|2. Fields from OMOP CDM are included as part of OMOP-EXT whereever there is information routinely available to populate them. Fields are used identically to OMOP CDM |  
+|3. No additional fields are introduced if similar fields or functions already exist in OMOP CDM |
+
+The resulting SILVER stage is designed to be 'one transformation step' away from OMOP GOLD tables, where decisions on patient inclusion and data cleaning are executed.
+
+### ROW, TABLE, AND SYSTEMS PROVENANCE
+
+OMOP provides different ways for representing provenance. These include using concepts that represent the [type of data source](https://athena.ohdsi.org/search-terms/terms?domain=Type+Concept&standardConcept=Standard&page=1&pageSize=15&query=), and concepts that represent the [concept status](https://athena.ohdsi.org/search-terms/terms?domain=Condition+Status&standardConcept=Standard&page=1&pageSize=15&query=). "Type" is USA-centric and does not carry granularity to represent the specific types of NHS system (though NHS systems can be mapped to these categories). Concept status is specific to the context in which each condition code was recorded. In practice, this type of metadata is rarely present in NHS source data, and would usually be inferred by the source system. 
+
+In the Common Data Model, SILVER tables therefore include additional columns to enable visibility over the source table, and NHS source system, and the direct relationship to a row in a source table via a unique source_row_id that is generated at data load. This also enables direct visbility over changes made during transformation.
+
+### HANDLING UNSTRUCTURED DATA
+
+[_placeholder_]

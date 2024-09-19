@@ -1,0 +1,15 @@
+## INTRODUCTION
+
+This section describes the architecture of our hospital data pipelines.
+
+```{mermaid}
+%%{init: {'theme': 'neutral' } }%%
+  flowchart LR
+
+    A["SOURCE"]--"Batch/stream to landing zone 
+                    and load to database"-->B["BRONZE"]--"Standardise structure 
+                                                          and concepts"-->C["SILVER"]--"OMOP conversion and
+                                                                                        analytics mart creation"-->D["GOLD"]
+```
+
+[_placeholder_]

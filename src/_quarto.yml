@@ -5,6 +5,7 @@ project:
 website:
   title: "London SDE/AIC Technical Documentation"
   navbar:
+    logo: media/logo_aic.png  
     background: secondary
   sidebar: 
     style: "docked"
@@ -14,8 +15,14 @@ website:
         contents: 
           - href: index.qmd
             text: Home
+      - section: "DATA PIPELINE"
+        contents: 
+          - href: pages/data_pipeline/intro.qmd
+            text: Intro to Pipeline             
       - section: "COMMON DATA MODEL"
         contents: 
+          - href: pages/data_model/intro.qmd
+            text: Intro to CDM         
           - href: pages/data_model/cdm_person.qmd
             text: Table/PERSON
           - href: pages/data_model/cdm_condition_occurrence.qmd
@@ -24,8 +31,7 @@ website:
             text: Table/DRUG_EXPOSURE
           - href: pages/data_model/cdm_measurement.qmd
             text: Table/MEASUREMENT                        
-          - href: pages/data_model/notes_provenance.qmd
-            text: Notes/Data Provenance                           
+                          
                      
 format:
   html:
