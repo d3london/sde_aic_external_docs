@@ -90,7 +90,7 @@ Deprivation is derived from patient postcode. The remaining parts of address are
 title: Person Intermediate Table (Deprivation)
 ---
 erDiagram
-    int__person_birth {
+    int_person_birth {
         person_uuid uuid "[PK] generated for each unique person"
         year_of_birth integer "[not null]"
         month_of_birth integer
@@ -99,16 +99,16 @@ erDiagram
         source_table_provenance varchar50 "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
     }
-    int__person_birth ||--|{ int__person_deprivation : "has deprivation"
-        int__person_deprivation {
-        person_uuid uuid "[FK] int__person_birth"
+    int_person_birth ||--|{ int_person_deprivation : "has deprivation"
+        int_person_deprivation {
+        person_uuid uuid "[FK] int_person_birth"
         postcode varchar20 "postcode with space"
         deprivation_decile integer "derived from postcode lookup"        
         index_multiple_deprivation integer "ranked IMD from postcode lookup"
         source_table_provenance varchar50 "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
-        date_valid date "date of record creation"
-        date_invalid date "date of record deprecation (e.g. if data item no longer valid)"
+        valid_from date "date of record creation"
+        valid_to date "date of record deprecation (e.g. if data item no longer valid)"
     }
 ```
 
