@@ -126,7 +126,7 @@ This is the transformed version of ingested person and demographic tables. This 
 title: OMOP-EXT Person
 ---
 erDiagram
-    mrt__person {
+    mrt_person {
         person_uuid uuid "[PK] generated for each unique person"
         gender_concept_id integer "[OMOP, not null] standard omop concept"
         gender_concept_code varchar50 "standard concept code"
@@ -146,9 +146,9 @@ erDiagram
         care_site_id integer "[OMOP] we do not populate this"
         person_source_value varchar50 "[OMOP] contains nhs number where available"
         gender_source_value varchar50 "[OMOP]"
-        gender_source_concept_id integer "[OMOP] we do not populate this"
+        gender_source_concept_id integer "[OMOP]"
         race_source_value varchar50 "[OMOP]"
-        race_source_concept_id integer "[OMOP] we do not populate this"
+        race_source_concept_id integer "[OMOP]"
         ethnicity_source_value varchar50 "[OMOP] we do not populate this"
         ethnicity_source_concept_id integer "[OMOP] we do not populate this"   
     }
