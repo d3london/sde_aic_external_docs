@@ -38,7 +38,7 @@ erDiagram
     }
 ```
 
-### silver.int__person_birth, silver.int__person_gender, silver.int__person_ethnicity (SILVER)
+### silver.int_person_birth, silver.int_person_gender, silver.int_person_ethnicity (SILVER)
 
 The source tables which contain patient demographics are a combination of normalised tables, and flat / wide tables, and may be maintained as type 1 or 2 SCD. We normalise patient characteristics found in these tables to enable visibility over changing and/or conflicting information (data handling decisions are pushed to a later stage).
 
