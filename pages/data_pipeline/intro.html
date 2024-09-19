@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>notes_provenance – London SDE/AIC Technical Documentation</title>
+<title>intro – London SDE/AIC Technical Documentation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,6 +66,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -77,6 +81,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../media/logo_aic.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">London SDE/AIC Technical Documentation</span>
     </a>
@@ -91,7 +98,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/data_model/cdm_person.html">COMMON DATA MODEL</a></li><li class="breadcrumb-item"><a href="../../pages/data_model/notes_provenance.html">Notes/Data Provenance</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/data_pipeline/intro.html">DATA PIPELINE</a></li><li class="breadcrumb-item"><a href="../../pages/data_pipeline/intro.html">Intro to Pipeline</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -123,12 +130,35 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">COMMON DATA MODEL</span></a>
+ <span class="menu-text">DATA PIPELINE</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/data_pipeline/intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Intro to Pipeline</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">COMMON DATA MODEL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/data_model/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to CDM</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/data_model/cdm_person.html" class="sidebar-item-text sidebar-link">
@@ -153,12 +183,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Table/MEASUREMENT</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/data_model/notes_provenance.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Notes/Data Provenance</span></a>
-  </div>
-</li>
       </ul>
   </li>
     </ul>
@@ -173,15 +197,30 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="data-provenance" class="level2">
-<h2 class="anchored" data-anchor-id="data-provenance">DATA PROVENANCE</h2>
-<section id="row-table-and-systems-provenance" class="level3">
-<h3 class="anchored" data-anchor-id="row-table-and-systems-provenance">ROW, TABLE, AND SYSTEMS PROVENANCE</h3>
-<p>OMOP provides different ways for representing provenance. These include using concepts that represent the <a href="https://athena.ohdsi.org/search-terms/terms?domain=Type+Concept&amp;standardConcept=Standard&amp;page=1&amp;pageSize=15&amp;query=">type of data source</a>, and concepts that represent the <a href="https://athena.ohdsi.org/search-terms/terms?domain=Condition+Status&amp;standardConcept=Standard&amp;page=1&amp;pageSize=15&amp;query=">concept status</a>. “Type” is USA-centric and does not carry granularity to represent the specific types of NHS system (though NHS systems can be mapped to these categories). Concept status is specific to the context in which each condition code was recorded. In practice, this type of metadata is rarely present in NHS source data, and would usually be inferred by the source system.</p>
-<p>In the Common Data Model, SILVER tables therefore include additional columns to enable visibility over the source table, and NHS source system. In addition, in tables where a single row will carry information about a single concept for a single person, it is possible to track this main relationship through to a source row via a row_id that is generated at data ingestion. This enables direct visbility over transformations during the pipeline.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">INTRODUCTION</h2>
+<p>This section describes the architecture of our hospital data pipelines.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme': 'neutral' } }%%
+  flowchart LR
+
+    A["SOURCE"]--"Batch/stream to landing zone 
+                    and load to database"--&gt;B["BRONZE"]--"Standardise structure 
+                                                          and concepts"--&gt;C["SILVER"]--"OMOP conversion and
+                                                                                        analytics mart creation"--&gt;D["GOLD"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>[<em>placeholder</em>]</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://d3london.github.io/sde_aic_docs/pages/data_model/notes_provenance.html</loc>
-    <lastmod>2024-09-09T12:43:03.974Z</lastmod>
+    <loc>https://d3london.github.io/sde_aic_docs/pages/data_model/cdm_measurement.html</loc>
+    <lastmod>2024-09-19T09:15:19.945Z</lastmod>
   </url>
   <url>
     <loc>https://d3london.github.io/sde_aic_docs/pages/data_model/cdm_drug_exposure.html</loc>
-    <lastmod>2024-09-09T12:43:03.974Z</lastmod>
-  </url>
-  <url>
-    <loc>https://d3london.github.io/sde_aic_docs/pages/data_model/cdm_measurement.html</loc>
-    <lastmod>2024-09-09T12:43:03.974Z</lastmod>
-  </url>
-  <url>
-    <loc>https://d3london.github.io/sde_aic_docs/index.html</loc>
-    <lastmod>2024-09-09T12:43:03.974Z</lastmod>
-  </url>
-  <url>
-    <loc>https://d3london.github.io/sde_aic_docs/pages/data_model/cdm_person.html</loc>
-    <lastmod>2024-09-09T12:43:03.974Z</lastmod>
+    <lastmod>2024-09-19T09:15:19.945Z</lastmod>
   </url>
   <url>
     <loc>https://d3london.github.io/sde_aic_docs/pages/data_model/cdm_condition_occurrence.html</loc>
-    <lastmod>2024-09-09T12:43:03.974Z</lastmod>
+    <lastmod>2024-09-19T09:15:19.945Z</lastmod>
+  </url>
+  <url>
+    <loc>https://d3london.github.io/sde_aic_docs/index.html</loc>
+    <lastmod>2024-09-19T09:15:19.944Z</lastmod>
+  </url>
+  <url>
+    <loc>https://d3london.github.io/sde_aic_docs/pages/data_pipeline/intro.html</loc>
+    <lastmod>2024-09-19T09:15:19.950Z</lastmod>
+  </url>
+  <url>
+    <loc>https://d3london.github.io/sde_aic_docs/pages/data_model/cdm_person.html</loc>
+    <lastmod>2024-09-19T09:15:19.945Z</lastmod>
+  </url>
+  <url>
+    <loc>https://d3london.github.io/sde_aic_docs/pages/data_model/intro.html</loc>
+    <lastmod>2024-09-19T09:15:19.945Z</lastmod>
   </url>
 </urlset>

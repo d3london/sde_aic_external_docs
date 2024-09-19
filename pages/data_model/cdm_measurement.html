@@ -81,6 +81,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../media/logo_aic.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">London SDE/AIC Technical Documentation</span>
     </a>
@@ -95,7 +98,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/data_model/cdm_person.html">COMMON DATA MODEL</a></li><li class="breadcrumb-item"><a href="../../pages/data_model/cdm_measurement.html">Table/MEASUREMENT</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/data_model/intro.html">COMMON DATA MODEL</a></li><li class="breadcrumb-item"><a href="../../pages/data_model/cdm_measurement.html">Table/MEASUREMENT</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -127,12 +130,35 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">COMMON DATA MODEL</span></a>
+ <span class="menu-text">DATA PIPELINE</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/data_pipeline/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to Pipeline</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">COMMON DATA MODEL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/data_model/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to CDM</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/data_model/cdm_person.html" class="sidebar-item-text sidebar-link">
@@ -155,12 +181,6 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../pages/data_model/cdm_measurement.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Table/MEASUREMENT</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/data_model/notes_provenance.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Notes/Data Provenance</span></a>
   </div>
 </li>
       </ul>
@@ -196,8 +216,8 @@ erDiagram
         person_id integer "[FK not null]"
         measurement_concept_id integer "[not null] standard OMOP concept id used for analyses"
         measurement_date date "[not null]"
-        measurement_datetime timestamp
-        measurement_time varchar10
+        measurement_datetime datetime
+        measurement_time timestamp
         measurement_type_concept_id integer "[not null] provenance of measurement value per OMOP"
         operator_concept_id integer "omission here is equivalent to '='"         
         value_as_number float "numerical value of the result of the measurement"
@@ -275,7 +295,7 @@ erDiagram
         meas_event_field_concept_id integer "concept id identifying the TABLE that is linked"
         source_system_provenance varchar50 "[NEW] name of specific system from which source table was ingested"
         source_table_provenance varchar50 "[NEW] source table name"
-        source_row_id varchar50 "[NEW] unique row id for the single concept that is generated at ingestion"          
+        source_row_id uuid "[NEW] unique row id for the single concept that is generated at ingestion"          
     }
 </pre>
 </div>
