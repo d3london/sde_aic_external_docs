@@ -51,7 +51,7 @@ title: Person Intermediate Tables
 erDiagram
     int_person_birth {
         person_uuid uuid "[PK] generated for each unique person"
-        year_of_birth integer "[not null]"
+        year_of_birth integer
         month_of_birth integer
         day_of_birth integer
         birth_datetime timestamp
@@ -64,6 +64,8 @@ erDiagram
         gender_source_value varchar "gender code from source system"
         gender_source_value_name varchar "gender descriptive name from source system"        
         gender_type varchar "type of gender (e.g. Epic - phenotypic)"
+        domain_id varchar "constrained by possible omop domains"
+        vocabulary_id "id of source vocab"
         source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         date_valid date "date of record creation"
@@ -73,7 +75,9 @@ erDiagram
     int_person_ethnicity {
         person_uuid uuid "[FK] int_person_birth"
         ethnicity_source_value varchar20 "ethnicity code from source system"
-        ethnicity_source_value_name varchar20 "ethnicity descriptive name from source system"        
+        ethnicity_source_value_name varchar20 "ethnicity descriptive name from source system"
+        domain_id varchar "constrained by possible omop domains"
+        vocabulary_id varchar "id of source vocab"                
         source_table_provenance varchar50 "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         date_valid date "date of record creation"
@@ -92,7 +96,7 @@ title: Person Intermediate Table (Deprivation)
 erDiagram
     int_person_birth {
         person_uuid uuid "[PK] generated for each unique person"
-        year_of_birth integer "[not null]"
+        year_of_birth integer
         month_of_birth integer
         day_of_birth integer
         birth_datetime timestamp
@@ -131,6 +135,7 @@ erDiagram
         gender_concept_id integer "[OMOP, not null] standard omop concept"
         gender_concept_code varchar "standard concept code"
         gender_concept_name varchar "standard concept name"
+        gender_vocabulary_id varchar "standard vocabulary used for this concept"
         year_of_birth integer "[OMOP, not null]"
         month_of_birth integer "[OMOP]"
         day_of_birth integer "[OMOP]"
@@ -138,6 +143,7 @@ erDiagram
         race_concept_id integer "[OMOP, not null] ethnicity in NHS"
         race_concept_code varchar "standard concept code"
         race_concept_name varchar "standard concept name"
+        race_vocabulary_id varchar "standard vocabulary used for this concept"        
         deprivation_decile_as_number integer "NHS IMD decile"       
         deprivation_index_as_number integer "NHS IMD ranking"
         ethnicity_concept_id integer "[OMOP] we do not populate this"
