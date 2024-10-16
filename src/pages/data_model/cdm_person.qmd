@@ -62,7 +62,7 @@ erDiagram
         gender_source_value varchar "gender code from source system"
         gender_source_value_name varchar "gender descriptive name from source system"        
         gender_type varchar "type of gender (e.g. Epic - phenotypic)"
-        domain_id varchar "constrained by possible omop domains"
+        domain_id varchar "most relevant omop domain"
         source_vocabulary_id varchar "id of source vocab"        
         source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
@@ -74,8 +74,8 @@ erDiagram
         person_uuid uuid "[FK] int_person_birth"
         ethnicity_source_value varchar20 "ethnicity code from source system"
         ethnicity_source_value_name varchar20 "ethnicity descriptive name from source system"
-        domain_id varchar "constrained by possible omop domains"
-        source_vocabulary_id varchar "id of source vocab"                   
+        domain_id varchar "most relevant omop domain"
+        source_vocabulary_id varchar "id of source vocab"                 
         source_table_provenance varchar50 "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         date_valid date "date of record creation"
@@ -105,8 +105,8 @@ erDiagram
         int_person_deprivation {
         person_uuid uuid "[FK] int_person_birth"
         postcode varchar "postcode with space"
-        deprivation_decile integer "derived from postcode lookup"        
-        index_multiple_deprivation integer "ranked IMD from postcode lookup"
+        deprivation_decile_as_number integer "NHS IMD decile"       
+        deprivation_index_as_number integer "NHS IMD ranking"
         source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         valid_from date "date of record creation"
@@ -116,11 +116,11 @@ erDiagram
 
 ### silver.mrt_person (SILVER)
 
-This is the transformed version of ingested person and demographic tables. This table is wider than the OMOP data model can be further constrained to transform into vanilla OMOP. It contains the following differences from OMOP:
+This is the transformed version of ingested person and demographic tables. Concepts in this table are mapped to OMOP standards, and column naming is compatible, but it contains the following differences:
 
 - Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;
 - Additional demographic fields for UK specific deprivation are included; 
-- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but we do not populate. They remain empty when carried into omop.person;
+- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are excluded. When converting to vanilla OMOP, these columns remain empty. 
 - To populate this, logic is applied to surface the most recent and reliable dimensions based on intermediate tables.    
 
 ```{mermaid}
@@ -130,29 +130,21 @@ title: OMOP-EXT Person
 erDiagram
     mrt_person {
         person_uuid uuid "[PK] generated for each unique person"
-        gender_concept_id integer "[OMOP, not null] standard omop concept"
-        gender_concept_code varchar "standard concept code"
-        gender_concept_name varchar "standard concept name"
-        year_of_birth integer "[OMOP, not null]"
-        month_of_birth integer "[OMOP]"
-        day_of_birth integer "[OMOP]"
-        birth_datetime timestamp "[OMOP]"
-        race_concept_id integer "[OMOP, not null] ethnicity in NHS"
-        race_concept_code varchar "standard concept code"
-        race_concept_name varchar "standard concept name"      
+        gender_concept_id integer "OMOP standard concept id"
+        gender_concept_code varchar "OMOP standard concept code"
+        gender_concept_name varchar "OMOP standard concept name"
+        year_of_birth integer
+        month_of_birth integer
+        day_of_birth integer
+        birth_datetime timestamp
+        race_concept_id integer "OMOP standard concept id, race = ethnicity in NHS"
+        race_concept_code varchar "OMOP standard concept code"
+        race_concept_name varchar "OMOP standard concept name"      
         deprivation_decile_as_number integer "NHS IMD decile"       
         deprivation_index_as_number integer "NHS IMD ranking"
-        ethnicity_concept_id integer "[OMOP] not populated"
-        location_id integer "[OMOP] not populated"
-        provider_id integer "[OMOP] not populated"
-        care_site_id integer "[OMOP] not populated"
-        person_source_value varchar "[OMOP] we populate with nhs number where available"
-        gender_source_value varchar "[OMOP] we populate with source code"
-        gender_source_concept_id integer "[OMOP] not populated"
-        race_source_value varchar "[OMOP] we populate with source code"
-        race_source_concept_id integer "[OMOP] not populated"
-        ethnicity_source_value varchar "[OMOP] not populated"
-        ethnicity_source_concept_id integer "[OMOP] not populated"   
+        person_source_value varchar "populate with nhs number where available"
+        gender_source_value varchar
+        race_source_value varchar
     }
 ```
 
