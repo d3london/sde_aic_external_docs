@@ -54,7 +54,7 @@ erDiagram
 This is the transformed version of ingested condition tables.  Concepts in this table are mapped to OMOP standards, and column naming is compatible, but it contains the following differences:
 
 - Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;
-- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but we do not populate. They remain empty when carried into omop.condition_occurrence;
+- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are excluded. When converting to vanilla OMOP, these columns remain empty;
 - Source, table, and systems provenance are maintained, as well as human defined provenance type in `condition_type_concept_id` per OMOP.
 
 ```{mermaid}
@@ -72,7 +72,8 @@ erDiagram
         condition_concept_id integer "OMOP standard concept id"
         condition_concept_code varchar "OMOP standard concept code"
         condition_concept_name varchar "OMOP standard concept name"
-        condition_type_concept_id integer "[FK not null] provenance of condition per OMOP - see notes"                
+        condition_type_concept_id integer "provenance/type of condition per OMOP - see notes" 
+        condition_type_concept_name integer "provenance/type of condition as text"                          
         condition_diagnosis_order integer "used where diagnoses are ordered, e.g. in commissioning data"
         stop_reason varchar "where given"
         visit_occurrence_id integer "[FK mrt_visit_occurrence] standardised unique visit id"
