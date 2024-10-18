@@ -3,7 +3,7 @@
 
 ### source.{source_table} (BRONZE)
 
-Structured data sources for patient conditions or diagnoses will generally always include:
+Structured data sources for patient diagnoses, and observed signs and notable symptoms will generally always include:
 
 | Table                                  | Type            |
 |----------------------------------------|-----------------|
@@ -72,6 +72,7 @@ erDiagram
         condition_concept_id integer "OMOP standard concept id"
         condition_concept_code varchar "OMOP standard concept code"
         condition_concept_name varchar "OMOP standard concept name"
+        vocabulary_id varchar "OMOP standard vocabulary"
         condition_type_concept_id integer "provenance/type of condition per OMOP - see notes" 
         condition_type_concept_name integer "provenance/type of condition as text"                          
         condition_diagnosis_order integer "used where diagnoses are ordered, e.g. in commissioning data"

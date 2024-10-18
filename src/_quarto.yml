@@ -29,8 +29,8 @@ website:
             text: Table/CONDITION_OCCURRENCE
           - href: pages/data_model/cdm_drug_exposure.qmd
             text: Table/DRUG_EXPOSURE
-          - href: pages/data_model/cdm_measurement.qmd
-            text: Table/MEASUREMENT                        
+#          - href: pages/data_model/cdm_measurement.qmd
+#            text: Table/MEASUREMENT                        
                           
                      
 format:
