@@ -177,3 +177,11 @@ erDiagram
         ethnicity_source_concept_id integer "mapping to omop, but often empty"
     }
 ```
+
+### ADDITIONAL NOTES
+
+None for now!
+
+### OUTSTANDING ISSUES
+
+None for now!
