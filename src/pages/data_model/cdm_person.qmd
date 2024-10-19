@@ -114,7 +114,7 @@ erDiagram
     }
 ```
 
-### silver.mrt_person (SILVER)
+### silver.ext_person (SILVER)
 
 This is the transformed version of ingested person and demographic tables. Concepts in this table are mapped to OMOP standards, and column naming is compatible, but it contains the following differences:
 
@@ -128,7 +128,7 @@ This is the transformed version of ingested person and demographic tables. Conce
 title: OMOP-EXT Person
 ---
 erDiagram
-    mrt_person {
+    ext_person {
         person_uuid uuid "[PK] generated for each unique person"
         gender_concept_id integer "OMOP standard concept id"
         gender_concept_code varchar "OMOP standard concept code"
