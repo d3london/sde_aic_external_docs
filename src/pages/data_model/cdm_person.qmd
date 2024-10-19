@@ -12,15 +12,15 @@ Structured data sources for person and core demographic information will general
 | Electronic Health Record patient index | Live / ADT feed |
 | Individual Observations / Facts        | Legacy + Live   |
 
-Tables are loaded to the database in batches, or through incremental ingestion via connection to a source database.
+Tables are loaded to the database in batches, or through incremental ingestion via connection to a source database. 
 
-### bronze.stg_{source}__{entity} (BRONZE)
+### bronze.base_ or stg_{source}__{entity} (BRONZE)
 
-Each data source is first staged in `stg_{source}__{entity}`. This may include column renaming, SELECT and UNION statements, and edge case handling.
+Data sources are staged as `stg_{source}__{entity}` (if necessary, with an initial step of `base_{source}__{entity}` prior to unioning). This may include column renaming and edge case handling.
 
 ### silver.int_person_identifier_lookup (SILVER)
 
-Due to the large number of patient identification systems found in any hospital, and the possibility of patient ID duplication (and subsequent deduplication), we normalise all identifiers (including hospital IDs, NHS numbers, specific system IDs) under a `person_uuid` that we generate. Note that while NHS numbers are often seen as a canonical identifier, these exhibit significant missingness either due to failure to retrieve from NHS Spine, or because a patient is not registered in the NHS.       
+Due to the large number of patient identification systems found in any hospital, and the possibility of patient ID duplication (and subsequent deduplication), we normalise all identifiers (including hospital IDs, NHS numbers, specific system IDs) under a `person_uuid` that we generate. Note that while NHS numbers are often seen as a canonical identifier, these exhibit significant missingness either due to failure to retrieve from NHS Spine, or because a patient is not registered in the NHS.
 
 ```{mermaid}
 ---
@@ -31,8 +31,6 @@ erDiagram
         person_uuid uuid "generated for each unique person"
         patient_id varchar "patient identifier from source systems"
         patient_id_type varchar "type of patient identifier"
-        source_table_provenance varchar "source table name"
-        source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         valid_from date "date of record creation"
         valid_to date "date of record deprecation (e.g. if lookup no longer valid)"
     }
@@ -64,6 +62,8 @@ erDiagram
         gender_source_value varchar "gender code from source system"
         gender_source_value_name varchar "gender descriptive name from source system"        
         gender_type varchar "type of gender (e.g. Epic - phenotypic)"
+        domain_id varchar "most relevant omop domain"
+        source_vocabulary_id varchar "id of source vocab"        
         source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         date_valid date "date of record creation"
@@ -73,7 +73,9 @@ erDiagram
     int_person_ethnicity {
         person_uuid uuid "[FK] int_person_birth"
         ethnicity_source_value varchar20 "ethnicity code from source system"
-        ethnicity_source_value_name varchar20 "ethnicity descriptive name from source system"        
+        ethnicity_source_value_name varchar20 "ethnicity descriptive name from source system"
+        domain_id varchar "most relevant omop domain"
+        source_vocabulary_id varchar "id of source vocab"                 
         source_table_provenance varchar50 "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         date_valid date "date of record creation"
@@ -92,7 +94,7 @@ title: Person Intermediate Table (Deprivation)
 erDiagram
     int_person_birth {
         person_uuid uuid "[PK] generated for each unique person"
-        year_of_birth integer "[not null]"
+        year_of_birth integer
         month_of_birth integer
         day_of_birth integer
         birth_datetime timestamp
@@ -103,8 +105,8 @@ erDiagram
         int_person_deprivation {
         person_uuid uuid "[FK] int_person_birth"
         postcode varchar "postcode with space"
-        deprivation_decile integer "derived from postcode lookup"        
-        index_multiple_deprivation integer "ranked IMD from postcode lookup"
+        deprivation_decile_as_number integer "NHS IMD decile"       
+        deprivation_index_as_number integer "NHS IMD ranking"
         source_table_provenance varchar "source table name"
         source_row_id uuid "unique row id for the single concept that is generated at ingestion"
         valid_from date "date of record creation"
@@ -112,13 +114,13 @@ erDiagram
     }
 ```
 
-### silver.mrt_person (SILVER)
+### silver.ext_person (SILVER)
 
-This is the transformed version of ingested person and demographic tables. This table is wider than the OMOP data model can be further constrained to transform into vanilla OMOP. It contains the following differences from OMOP:
+This is the transformed version of ingested person and demographic tables. Concepts in this table are mapped to OMOP standards, and column naming is compatible, but it contains the following differences:
 
 - Standardised concept codes/names are surfaced, and indexed, to enable user-friendly exploration and visualisation without the need for large joins;
 - Additional demographic fields for UK specific deprivation are included; 
-- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are initialised, but we do not populate. They remain empty when carried into omop.person;
+- OMOP CDM 5.4 columns that are not relevant to the NHS, or to intended purposes, are excluded. When converting to vanilla OMOP, these columns remain empty. 
 - To populate this, logic is applied to surface the most recent and reliable dimensions based on intermediate tables.    
 
 ```{mermaid}
@@ -126,37 +128,29 @@ This is the transformed version of ingested person and demographic tables. This 
 title: OMOP-EXT Person
 ---
 erDiagram
-    mrt_person {
+    ext_person {
         person_uuid uuid "[PK] generated for each unique person"
-        gender_concept_id integer "[OMOP, not null] standard omop concept"
-        gender_concept_code varchar "standard concept code"
-        gender_concept_name varchar "standard concept name"
-        year_of_birth integer "[OMOP, not null]"
-        month_of_birth integer "[OMOP]"
-        day_of_birth integer "[OMOP]"
-        birth_datetime timestamp "[OMOP]"
-        race_concept_id integer "[OMOP, not null] ethnicity in NHS"
-        race_concept_code varchar "standard concept code"
-        race_concept_name varchar "standard concept name"
+        gender_concept_id integer "OMOP standard concept id"
+        gender_concept_code varchar "OMOP standard concept code"
+        gender_concept_name varchar "OMOP standard concept name"
+        year_of_birth integer
+        month_of_birth integer
+        day_of_birth integer
+        birth_datetime timestamp
+        race_concept_id integer "OMOP standard concept id, race = ethnicity in NHS"
+        race_concept_code varchar "OMOP standard concept code"
+        race_concept_name varchar "OMOP standard concept name"      
         deprivation_decile_as_number integer "NHS IMD decile"       
         deprivation_index_as_number integer "NHS IMD ranking"
-        ethnicity_concept_id integer "[OMOP] we do not populate this"
-        location_id integer "[OMOP] we do not populate this"
-        provider_id integer "[OMOP] we do not populate this"
-        care_site_id integer "[OMOP] we do not populate this"
-        person_source_value varchar "[OMOP] contains nhs number where available"
-        gender_source_value varchar "[OMOP]"
-        gender_source_concept_id integer "[OMOP]"
-        race_source_value varchar "[OMOP]"
-        race_source_concept_id integer "[OMOP]"
-        ethnicity_source_value varchar "[OMOP] we do not populate this"
-        ethnicity_source_concept_id integer "[OMOP] we do not populate this"   
+        person_source_value varchar "populate with nhs number where available"
+        gender_source_value varchar
+        race_source_value varchar
     }
 ```
 
 ### omop.person (GOLD, OMOP CDM 5.4)
 
-Central identity management for all persons in the OMOP data model. It contains records that uniquely identify each person or patient, and some demographic information.
+Central identity management for all persons in the OMOP data model. It contains records that uniquely identify each person or patient, and some demographic information. The canonical OMOP table is shown below. 
 ```{mermaid}
 ---
 title: OMOP Person Table
@@ -183,3 +177,11 @@ erDiagram
         ethnicity_source_concept_id integer "mapping to omop, but often empty"
     }
 ```
+
+### ADDITIONAL NOTES
+
+None for now!
+
+### OUTSTANDING ISSUES
+
+None for now!
