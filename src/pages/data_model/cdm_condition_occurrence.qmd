@@ -107,7 +107,7 @@ erDiagram
         condition_status_concept_id integer "how diagnosis was made - e.g. admission vs final"
         stop_reason varchar20 "why condition is no longer valid"
         provider_id integer "[FK] clinician provider who recorded condition"
-        visit_occurrence_id integer "[FK]"
+        visit_occurrence_uuid uuid "[FK]"
         visit_detail_id integer "[FK]"
         condition_source_value varchar50 "condition code as represented in source"
         condition_source_concept_id integer "mapping to omop but often left empty"
