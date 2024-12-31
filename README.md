@@ -1,27 +1,29 @@
 # London SDE/AI Centre Technical Documentation
 Source code for https://d3london.github.io/sde_aic_external_docs/ which hosts technical documentation for AI Centre work across the London Secure Data Environment.
 
-## Getting Started
-
-This documentation project uses Quarto to generate content and GitHub Pages to publish it. Use the following steps to get set up and contribute.
+## Updating Documentation
 
 ### Prerequisites
 
+### Quick Setup
+
+Develop with the Devcontainer as part of this repo: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/d3london/sde_aic_external_docs?quickstart=1)
+
+#### Manual Setup
+
 1. Install Quarto:
-    - Visit the [Quarto website](https://quarto.org/docs/get-started/) and follow the installation instructions for your operating system.
+    - Visit the [Quarto website](https://quarto.org/docs/get-started/) and follow the installation instructions for your operating system if you wish to render documents locally.
 
 2. Install Git:
    - If you haven't already, [install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) on your local machine.
 
-### Setting Up Local Environment
-
-1. Clone the repository:
+3. Clone the repository:
    ```
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/d3london/sde_aic_external_docs.git
+   cd sde_aic_external_docs
    ```
 
-2. Create a new branch for your changes:
+4. Create a new branch for your changes:
    ```
    git checkout -b your-branch-name
    ```
