@@ -1,5 +1,5 @@
 # London SDE/AI Centre Technical Documentation
-Source code for https://d3london.github.io/sde_aic_external_docs/ which hosts technical documentation for AI Centre work across the London Secure Data Environment.
+Source code for [the external docs site](https://d3london.github.io/sde_aic_external_docs/) which hosts technical documentation for AI Centre work across the London Secure Data Environment.
 
 ## Updating Documentation
 
@@ -7,7 +7,9 @@ Source code for https://d3london.github.io/sde_aic_external_docs/ which hosts te
 
 ### Quick Setup
 
-Develop with the Devcontainer as part of this repo: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/d3london/sde_aic_external_docs?quickstart=1)
+Develop with the Devcontainer as part of this repo: 
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/d3london/sde_aic_external_docs?quickstart=1)
 
 #### Manual Setup
 
