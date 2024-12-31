@@ -1,1 +1,1 @@
-Sitemap: https://d3london.github.io/sde_aic_docs/sitemap.xml
+Sitemap: https://d3london.github.io/sde_aic_external_docs/sitemap.xml
